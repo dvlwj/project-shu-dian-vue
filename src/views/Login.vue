@@ -38,6 +38,12 @@
                   ></v-text-field>
               </v-card-text>
               <v-card-actions>
+                <v-btn
+                  color="accent"
+                  @click="toRegisterPage"
+                >
+                  Register
+                </v-btn>
                 <v-spacer></v-spacer>
                 <v-btn
                   type="submit"
@@ -151,6 +157,9 @@ export default {
     },
     showLoading(boolean) {
       this.$refs.LoadingModal.showModalFunction(boolean);
+    },
+    toRegisterPage() {
+      this.$router.push({ name: 'Register' });
     },
   },
 };
