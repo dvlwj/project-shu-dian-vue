@@ -72,6 +72,7 @@ export default {
     LoadingModal,
   },
   data: () => ({
+    isDisabled: true,
     valid: true,
     loginUsername: '',
     rulesUsername: [
@@ -84,15 +85,18 @@ export default {
     lazy: true,
     modalMessage: null,
   }),
-  // created: {
-  //   checkSession() {
-  //     const UUID = this.$store.getters.getUUID;
-  //     const username = this.$store.getters.getUsername;
-  //     if (UUID.length > 0 && username.length > 0) {
-  //       alert('Yuhuuuuu');
-  //     }
-  //   },
-  // },
+  watch: {
+    loginUsername() {
+      if (this.loginUsername.length > 0 && this.loginPassword.length > 0) {
+        this.isDisabled = false;
+      }
+    },
+    loginPassword() {
+      if (this.loginUsername.length > 0 && this.loginPassword.length > 0) {
+        this.isDisabled = false;
+      }
+    },
+  },
   computed: {
   },
   methods: {
@@ -113,6 +117,7 @@ export default {
             if (res.status === 204) {
               const message = 'Failed to process login request, credentials isn\'t valid';
               this.openModal(message);
+              return;
             }
             this.storeCredentials(res);
             this.$router.push({ name: 'Dashboard' });
