@@ -145,13 +145,11 @@ export default {
               this.openModal(message);
             }
           });
-        await function process() {
-          if (isLoginSuccess) {
-            this.$router.push({ name: 'Dashboard' });
-          } else {
-            this.showLoading(false);
-          }
-        };
+        if (isLoginSuccess) {
+          this.$router.push({ name: 'Dashboard' });
+        } else {
+          this.showLoading(false);
+        }
       }
     },
     async storeCredentials(res) {
