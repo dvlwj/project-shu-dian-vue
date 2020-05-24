@@ -37,26 +37,10 @@
                 <v-btn
                   class="ma-2"
                   color="success"
-                  @click="processDetails"
+                  @click="processDetails(item.id)"
                 >
                   Details
                   <v-icon right>mdi-page-next</v-icon>
-                </v-btn>
-                <v-btn
-                  class="ma-2"
-                  color="warning"
-                  @click="processEdit"
-                >
-                  Edit
-                  <v-icon>mdi-pencil</v-icon>
-                </v-btn>
-                <v-btn
-                  class="ma-2"
-                  color="error"
-                  @click="processDelete"
-                >
-                  Delete
-                  <v-icon>mdi-delete-forever</v-icon>
                 </v-btn>
               </v-list-item>
             </v-list-item-group>
@@ -80,6 +64,7 @@
     <CommonModal ref="CommonModal"></CommonModal>
     <LoadingModal ref="LoadingModal"></LoadingModal>
     <CreateDataModal ref="CreateDataModal" v-on:resyncParent="resyncParent"></CreateDataModal>
+    <DetailsModal ref="DetailsModal" v-on:resyncParent="resyncParent"></DetailsModal>
   </v-app>
 </template>
 
@@ -88,6 +73,7 @@ import axios from 'axios';
 import CommonModal from '@/components/CommonModal.vue';
 import LoadingModal from '@/components/LoadingModal.vue';
 import CreateDataModal from '@/components/CreateDataModal.vue';
+import DetailsModal from '@/components/DetailsModal.vue';
 
 axios.defaults.withCredentials = true;
 
@@ -97,11 +83,12 @@ export default {
     CommonModal,
     LoadingModal,
     CreateDataModal,
+    DetailsModal,
   },
   data: () => ({
     username: null,
     sessionID: null,
-    item: 5,
+    item: 0,
     items: null,
     disabled: false,
     dense: false,
@@ -174,24 +161,21 @@ export default {
     showLoading(boolean) {
       this.$refs.LoadingModal.showModalFunction(boolean);
     },
-    processDetails() {
-      const message = 'this is details';
-      this.openModal(message);
-    },
-    processEdit() {
-      const message = 'this is edit';
-      this.openModal(message);
-    },
-    processDelete() {
-      const message = 'this is delete';
-      this.openModal(message);
+    processDetails(id) {
+      this.$refs.DetailsModal.showModalFunction(id);
     },
     processNew() {
       this.$refs.CreateDataModal.showModalFunction();
     },
-    async resyncParent() {
+    async resyncParent(modalName) {
       await this.getList();
-      this.$refs.CreateDataModal.hideModal();
+      if (modalName === 'CreateDataModal') {
+        this.$refs.CreateDataModal.hideModal();
+      } else if (modalName === 'DeleteDataModal') {
+        this.$refs.DetailsModal.hideModal();
+      } else if (modalName === 'UpdateDataModal') {
+        this.$refs.DetailsModal.hideModal();
+      }
     },
   },
 };
