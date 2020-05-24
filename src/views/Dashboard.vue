@@ -24,12 +24,40 @@
                 v-for="(item, i) in items"
                 :key="i"
                 :inactive="inactive"
+                class="d-flex"
               >
-                <v-list-item-content>
+                <v-list-item-icon class="align-self-center">
+                  <v-icon>mdi-chevron-right</v-icon>
+                </v-list-item-icon>
+                <v-list-item-content class="align-self-center">
                   <v-list-item-title>
                     Subject : {{item.subject}}
                   </v-list-item-title>
                 </v-list-item-content>
+                <v-btn
+                  class="ma-2"
+                  color="success"
+                  @click="placeholder1"
+                >
+                  Details
+                  <v-icon right>mdi-page-next</v-icon>
+                </v-btn>
+                <v-btn
+                  class="ma-2"
+                  color="warning"
+                  @click="placeholder2"
+                >
+                  Edit
+                  <v-icon>mdi-pencil</v-icon>
+                </v-btn>
+                <v-btn
+                  class="ma-2"
+                  color="error"
+                  @click="placeholder3"
+                >
+                  Delete
+                  <v-icon>mdi-delete-forever</v-icon>
+                </v-btn>
               </v-list-item>
             </v-list-item-group>
           </v-list>
