@@ -1,9 +1,8 @@
 <template>
-
   <v-row justify="center">
     <v-dialog v-model="showModal" v-if="showModal" persistent max-width="290">
       <v-card>
-        <v-card-title class="headline">Hi</v-card-title>
+        <v-card-title class="headline">Information</v-card-title>
         <v-card-text>{{modalMessage}}</v-card-text>
         <v-card-actions>
           <v-spacer></v-spacer>
@@ -28,8 +27,6 @@ export default {
     },
     hideModal() {
       this.showModal = false;
-      // this.$emit('input', !this.message);
-      // this.modalMessage = null;
     },
   },
 };
