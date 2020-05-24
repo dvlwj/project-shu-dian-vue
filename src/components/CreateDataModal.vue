@@ -93,7 +93,7 @@ export default {
             this.openModal(message);
             return;
           }
-          this.$emit('resyncParent');
+          this.$emit('resyncParent', 'CreateDataModal');
         })
         .catch((error) => {
           if (error.response) {
