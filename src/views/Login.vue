@@ -107,6 +107,7 @@ export default {
   },
   methods: {
     async loginCredentials() {
+      let isLoginSuccess = false;
       const dataToSend = {
         username: this.loginUsername,
         password: this.loginPassword,
@@ -115,7 +116,7 @@ export default {
         this.showLoading(true);
         await axios({
           method: 'post',
-          url: 'http://localhost:3000/user/login',
+          url: 'http://localhost:3000/user/login/',
           data: dataToSend,
           timeout: 10000,
         })
@@ -126,9 +127,11 @@ export default {
               return;
             }
             this.storeCredentials(res);
+            isLoginSuccess = true;
             this.$router.push({ name: 'Dashboard' });
           })
           .catch((error) => {
+            isLoginSuccess = false;
             if (error.response) {
               const dataFromResponse = error.response.data;
               const { message } = dataFromResponse;
@@ -142,7 +145,13 @@ export default {
               this.openModal(message);
             }
           });
-        this.showLoading(false);
+        await function process() {
+          if (isLoginSuccess) {
+            this.$router.push({ name: 'Dashboard' });
+          } else {
+            this.showLoading(false);
+          }
+        };
       }
     },
     async storeCredentials(res) {
