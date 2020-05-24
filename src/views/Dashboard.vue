@@ -1,6 +1,6 @@
 <template>
   <v-app>
-    <v-container class="fill-height" fluid>
+    <v-container fluid>
         <v-row class="fill-height">
           <v-list
             :disabled="disabled"
@@ -37,7 +37,7 @@
                 <v-btn
                   class="ma-2"
                   color="success"
-                  @click="placeholder1"
+                  @click="processDetails"
                 >
                   Details
                   <v-icon right>mdi-page-next</v-icon>
@@ -45,7 +45,7 @@
                 <v-btn
                   class="ma-2"
                   color="warning"
-                  @click="placeholder2"
+                  @click="processEdit"
                 >
                   Edit
                   <v-icon>mdi-pencil</v-icon>
@@ -53,7 +53,7 @@
                 <v-btn
                   class="ma-2"
                   color="error"
-                  @click="placeholder3"
+                  @click="processDelete"
                 >
                   Delete
                   <v-icon>mdi-delete-forever</v-icon>
@@ -63,8 +63,23 @@
           </v-list>
         </v-row>
     </v-container>
+    <v-fab-transition>
+      <v-btn
+        color="primary"
+        large
+        dark
+        bottom
+        right
+        fixed
+        fab
+        @click="processNew"
+      >
+        <v-icon>mdi-plus</v-icon>
+      </v-btn>
+    </v-fab-transition>
     <CommonModal ref="CommonModal"></CommonModal>
     <LoadingModal ref="LoadingModal"></LoadingModal>
+    <CreateDataModal ref="CreateDataModal" v-on:resyncParent="resyncParent"></CreateDataModal>
   </v-app>
 </template>
 
@@ -72,6 +87,7 @@
 import axios from 'axios';
 import CommonModal from '@/components/CommonModal.vue';
 import LoadingModal from '@/components/LoadingModal.vue';
+import CreateDataModal from '@/components/CreateDataModal.vue';
 
 axios.defaults.withCredentials = true;
 
@@ -80,6 +96,7 @@ export default {
   components: {
     CommonModal,
     LoadingModal,
+    CreateDataModal,
   },
   data: () => ({
     username: null,
@@ -116,7 +133,10 @@ export default {
         timeout: 10000,
       })
         .then((res) => {
-          if (res.status !== 200) {
+          if (res.status === 204) {
+            const message = 'Your to do list still empty. You can start to input now';
+            this.openModal(message);
+          } else if (res.status !== 200) {
             const message = 'Failed to process login request, credentials isn\'t valid';
             this.openModal(message);
             return;
@@ -127,6 +147,10 @@ export default {
         })
         .catch((error) => {
           if (error.response) {
+            if (error.response.status === 401) {
+              this.$router.push({ name: 'Login' });
+              return;
+            }
             const dataFromResponse = error.response.data;
             const { message } = dataFromResponse;
             this.openModal(message);
@@ -150,6 +174,25 @@ export default {
     showLoading(boolean) {
       this.$refs.LoadingModal.showModalFunction(boolean);
     },
+    processDetails() {
+      const message = 'this is details';
+      this.openModal(message);
+    },
+    processEdit() {
+      const message = 'this is edit';
+      this.openModal(message);
+    },
+    processDelete() {
+      const message = 'this is delete';
+      this.openModal(message);
+    },
+    processNew() {
+      this.$refs.CreateDataModal.showModalFunction();
+    },
+    async resyncParent() {
+      await this.getList();
+      this.$refs.CreateDataModal.hideModal();
+    },
   },
 };
 </script>
@@ -157,5 +200,5 @@ export default {
   .v-list{
     margin-top: 64px;
     width:100%;
-  }
+  };
 </style>
