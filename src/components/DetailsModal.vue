@@ -74,6 +74,7 @@ export default {
     LoadingModal,
   },
   data: () => ({
+    valid: true,
     showModal: false,
     isUpdateButtonDisable: true,
     id: null,
