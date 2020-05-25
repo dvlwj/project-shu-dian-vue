@@ -1,5 +1,13 @@
 <template>
   <v-app>
+      <v-app-bar app color="primary" dark>
+        <div class="d-flex align-center">
+          <h3>To Do List</h3>
+        </div>
+
+        <v-spacer></v-spacer>
+        <p>v1.0.0</p>
+      </v-app-bar>
       <v-container class="fill-height" fluid>
         <v-row align="center" justify="center">
           <v-col cols="12" sm="8" md="4">
