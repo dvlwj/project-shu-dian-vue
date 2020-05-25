@@ -45,4 +45,4 @@ Tried to running test with PWA enabled for this application. One for mobile view
 
 Got score 80ish avg. and got highest score for 81 and 85. Trying to improve it to 90, but failed on the way.
 
-Screenshots of testing result is available in /docs folder.
+***Screenshots of testing result is available in /docs folder***.
