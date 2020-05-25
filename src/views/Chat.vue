@@ -33,7 +33,7 @@
               placeholder="Your Message*"
               hint="Message you want to send"
               outlined
-              :rules="(v) => !!v || 'Message is required'"
+              :rules="[(v) => !!v || 'Message is required']"
               required
             ></v-textarea>
         </v-card-text>
